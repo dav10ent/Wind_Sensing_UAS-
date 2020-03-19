@@ -3,7 +3,7 @@
 #define ttStepPin 7
 #define ttDirPin 6
 #define ttMicroSteps 32
-#define ttGearRatio 1
+#define ttGearRatio 5.18
 
 #define rotorStepPin 5
 #define rotorDirPin 4
@@ -24,6 +24,7 @@ int sweepLimit = 45;
 
 int numIncrements = 2*sweepLimit/angleIncrement;
 
+int settlingTime = 10000;
 
 void setup() {
   // put your setup code here, to run once:
@@ -43,7 +44,6 @@ void setup() {
 
 void loop() {
   
-  
 
 }
 
@@ -59,6 +59,7 @@ void runCalibration() {
 
     if(rot != 0) {
       rotateRotor(1, angleIncrement, rotorSpeed);
+      delay(settlingTime);
     }
   
     
@@ -69,9 +70,10 @@ void runCalibration() {
         digitalWrite(pulseOutPin, HIGH);
         delay(100);
         digitalWrite(pulseOutPin, LOW);
-        delay(5000);
+        delay(settlingTime);
     }
-    rotateTT(0, 90, ttSpeed);   
+    rotateTT(0, 90, ttSpeed);
+    delay(settlingTime);   
   }
 
   //Return to Zero
